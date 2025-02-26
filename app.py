@@ -19,10 +19,10 @@ app.secret_key = 'your_secret_key'
 
 # MySQL Configuration
 app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'ashika@123'
-app.config['MYSQL_DB'] = 'gestura_db'
-app.config['MYSQL_PORT']=3308
+app.config['MYSQL_USER'] = ''
+app.config['MYSQL_PASSWORD'] = ''
+app.config['MYSQL_DB'] = ''
+app.config['MYSQL_PORT']=
 mysql = MySQL(app)
 
 # Registration Form
