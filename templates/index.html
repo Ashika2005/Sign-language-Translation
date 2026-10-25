@@ -603,7 +603,7 @@ iframe {
 
         // Call Google Translate API for each element
         const translations = await Promise.all(elementsToTranslate.map(text => {
-            return fetch(`https://translation.googleapis.com/language/translate/v2?key=${AIzaSyD-CgGpZNSWFxlDpfCtQxqnH4ieDOhZctc}`, {
+            return fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {//Add your Google Translate API key here
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
