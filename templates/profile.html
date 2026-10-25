@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #4b6cb7, #182848);
+      color: #fff;
+      overflow-x: hidden;
+      animation: gradientShift 1s ease infinite;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    @keyframes gradientShift {
+      0% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+      50% { background: linear-gradient(135deg, #182848, #4b6cb7); }
+      100% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+    }
+
+    h1, h2, p {
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-brand {
+      font-size: 1.9rem;
+      font-weight: bold;
+      color: #fdbb2d;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      text-decoration: none;
+    }
+
+    /* Navigation Links */
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: #fff;
+      font-size: 1.1rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #fdbb2d;
+      text-decoration: underline;
+    }
+
+    /* Profile Section */
+    .profile-section {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+      max-width: 600px;
+      width: 100%;
+      margin: 3rem auto;
+      text-align: center;
+    }
+
+    .heading {
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+      margin-bottom: 1.5rem;
+      color: #fdbb2d;
+    }
+
+    .subheading {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      color: #ddd;
+      font-weight: 300;
+    }
+
+    .profile-section p {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-section strong {
+      font-weight: bold;
+      color: #fdbb2d;
+    }
+
+    /* Update Form */
+    .settings-form {
+      margin-top: 3rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .settings-form input {
+      padding: 1rem;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      width: 80%;
+      margin-bottom: 1.5rem;
+      background: #fff;
+      color: #333;
+    }
+
+    .settings-form input::placeholder {
+      color: #888;
+    }
+
+    .settings-form input:focus {
+      border-color: #fdbb2d;
+      outline: none;
+    }
+
+    .btn {
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(90deg, #ff8c00, #ffa500);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0.8rem;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #ffa500, #ff8c00);
+    }
+
+    /* Footer Styles */
+    .footer {
+      text-align: center;
+      padding: 1.2rem;
+      background: rgba(0, 0, 0, 0.8);
+      position: relative;
+      width: 100%;
+      bottom: 0;
+      color: #fdbb2d;
+      font-size: 1rem;
+      font-weight: 500;
+    }/* Profile Update Form */
+.settings-form {
+  margin-top: 3rem;
+  text-align: center; /* Align labels and inputs to the left */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align input fields and labels to the left */
+}
+
+.settings-form label {
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;text-align: center;
+  margin-bottom: 0.5rem;
+  color: #fff; /* Color of the labels */
+}
+
+.settings-form input {
+  padding: 1rem;
+  font-size: 1rem;text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 90%; /* Ensure the inputs take the full width */
+  margin-bottom: 1.5rem;
+  background: #fff;
+  color: #333;
+}
+
+.settings-form input::placeholder {
+  color: #888;
+}
+
+.settings-form input:focus {
+  border-color: #fdbb2d;
+  outline: none;
+}
+/* Profile Picture Styles */
+.profile-image img {
+  width: 150px;  /* Adjust size as needed */
+  height: 150px; /* Adjust size as needed */
+  object-fit: cover; /* Ensure the image covers the circle */
+  border-radius: 50%;  /* This makes the image circular */
+  border: 5px solid #fdbb2d; /* Optional: Add a border around the circle */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3); /* Optional: Add shadow to the image */
+  margin-bottom: 2rem;  /* Adjust the space below the image */
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="{{ url_for('index') }}"> <img src="{{ url_for('static', filename='icon.webp') }}" alt="App Icon" style="width: 30px; height: 30px; margin-right: 10px;">Gestura</a>
+    <div class="nav-links">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+      <a href="{{ url_for('settings') }}">Settings</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+      <a href="{{ url_for('feedback') }}">Feedback</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </nav>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class="flashed-messages">
+      {% for category, message in messages %}
+        <li class="flash-{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+  <div class="profile-section">
+    <h1 class="heading">Your Profile</h1>
+    <div class="profile-image">
+      <img src="{{ url_for('static', filename=user.profile_picture if user.profile_picture else 'default-profile.jpeg') }}" alt="Profile Picture">
+
+    </div>
+    
+    <p class="subheading">Manage your profile details and keep them up to date.</p>
+    <p><strong>User ID:</strong> {{ user.id }}</p>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+
+    <!-- Profile Update Form -->
+    <div class="settings-form">
+      <form method="POST" enctype="multipart/form-data">
+        <label for="username">Update Username</label>
+        <input type="text" name="username" value="{{ user.username }}" required>
+    
+        <label for="email">Update Email</label>
+        <input type="email" name="email" value="{{ user.email }}" required>
+    
+        <label for="profile_picture">Update Profile Picture</label>
+        <input type="file" name="profile_picture">
+    
+        <button class="btn" type="submit">Update Profile</button>
+  
+    
+      </form>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>&copy; 2025 Sign Language Translator. All rights reserved. <a href="#">Privacy Policy</a></p>
+  </footer>
+  <button id="sound-toggle" class="btn" style="position: fixed; bottom: 20px; right: 20px; padding: 5px 10px; font-size: 12px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+    Play
+  </button>
+  
+<audio id="gesture-sound" src="{{ url_for('static', filename='Gratitude_Spiritual-Moment.mp3') }}" preload="auto">play</audio>
+
+   <script>
+        // Apply saved theme on page load
+        window.onload = function () {
+            const savedTheme = localStorage.getItem('theme');
+
+            if (savedTheme) {
+                // Apply the saved theme to the body
+                document.body.classList.add(savedTheme);
+
+                // Apply the same theme to all containers if necessary
+                const containers = document.querySelectorAll('.container');
+                containers.forEach(container => {
+                    container.classList.add(savedTheme);
+                });
+            } else {
+                // Default to light mode if no theme is saved
+                document.body.classList.add('light-mode');
+                const containers = document.querySelectorAll('.container');
+                containers.forEach(container => {
+                    container.classList.add('light-mode');
+                });
+            }
+        }
+    // Track sound status globally
+    let soundEnabled = localStorage.getItem('soundEnabled') === 'true'; // Get saved state from localStorage
+
+    // Get references to the audio element and the sound toggle button
+    const sound = document.getElementById('gesture-sound');
+    const soundToggleButton = document.getElementById('sound-toggle');
+
+    // Update the button text based on the saved state
+    if (soundEnabled) {
+        soundToggleButton.textContent = 'Stop';  // Change to 'Stop' if sound is enabled
+        sound.play();
+    } else {
+        soundToggleButton.textContent = 'Play';  // Change to 'Play' if sound is not enabled
+        sound.pause();
+    }
+
+    // Function to play/stop the sound and toggle the button text
+    soundToggleButton.addEventListener('click', () => {
+        if (soundEnabled) {
+            // Stop the sound
+            sound.pause();
+            sound.currentTime = 0; // Reset the sound to the beginning
+
+            // Change button text to 'Play'
+            soundToggleButton.textContent = 'Play';
+        } else {
+            // Play the sound
+            sound.play();
+
+            // Change button text to 'Stop'
+            soundToggleButton.textContent = 'Stop';
+        }
+
+        // Toggle soundEnabled state and save it to localStorage
+        soundEnabled = !soundEnabled;
+        localStorage.setItem('soundEnabled', soundEnabled);
+    });
+
+    </script>
+  </script>
+</body>
+</html>

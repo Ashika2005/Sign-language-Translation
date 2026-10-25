@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaaniSync</title>
+    <link rel="icon" href="{{ url_for('static', filename='icon.png') }}" type="image/png">
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            animation: gradientShift 1s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+            50% { background: linear-gradient(135deg, #182848, #4b6cb7); }
+            100% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+        }
+
+        h1, h2, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        header .brand {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fdbb2d;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            text-decoration: none;
+        }
+
+        /* Navbar Styles */
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar-brand {
+            font-size: 1.9rem;
+            font-weight: bold;
+            color: #fdbb2d;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            text-decoration: none;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #fff;
+            font-size: 1.1rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #fdbb2d;
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            max-width: 1000px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+        }
+
+        main h1 {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fdbb2d;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            margin-bottom: 1.5rem;
+        }
+
+        main h2 {
+            font-size: 2rem;
+            color: #fdbb2d;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        main p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #ddd;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        main ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+
+        main ul li {
+            font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0.8rem auto;
+            padding: 1rem;
+            border-radius: 8px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+        }
+
+        main ul li strong {
+            margin-right: 0.5rem;
+            color: #fdbb2d;
+        }
+
+        .btn {
+            display: inline-block;
+            margin: 2rem auto;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(90deg, #ff8c00, #ffa500);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+/* For App Benefits and How It Works list items */
+main ul li {
+    font-size: 1.1rem;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0.8rem auto;
+    padding: 1rem;
+    border-radius: 8px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    cursor: pointer; /* Adds pointer cursor when hovering */
+}
+
+main ul li:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.02);
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+/* For the Feedback and Start buttons */
+.btn {
+    display: inline-block;
+    margin: 2rem auto;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #ff8c00, #ffa500);
+    color: #fff;
+    cursor: pointer; /* Ensures the pointer cursor is shown when hovering over buttons */
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+#start .btn:hover, #feedback .btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, rgb(109, 230, 109), green);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.5);
+}
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #ffa500, #ff8c00);
+        }
+
+        /* Footer Styles */
+        .footer {
+            text-align: center;
+            padding: 1.2rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fdbb2d;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .footer a {
+            color: #fdbb2d;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }/* Centering the Feedback Button */
+#feedback {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Vertically center */
+    align-items: center;      /* Horizontally center */
+    text-align: center;
+}
+
+#feedback .btn {
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #ff8c00, #ffa500);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+#feedback .btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, rgb(109, 230, 109), green);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.5);  /* Stronger shadow */
+}
+
+/* Navigation Links */
+.nav-links a {
+    color: #fff;
+    font-size: 1.1rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #fdbb2d;
+    text-decoration: underline;
+    transform: scale(1.1);  /* Slight scale up effect */
+}/* Centering the Start Button */
+#start {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* Vertically center */
+    align-items: center;      /* Horizontally center */
+    text-align: center;
+    margin-top: 2rem;         /* Add spacing above */
+}
+
+#start .btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #ff8c00, #ffa500);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+#start .btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, rgb(98, 215, 98), green);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.5);  /* Stronger shadow */
+}
+
+
+/* Button Hover Effect */
+.btn {
+    display: inline-block;
+    margin: 2rem auto;
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #ff8c00, #ffa500);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    text-align: center;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    background: linear-gradient(90deg, rgb(132, 232, 132), green);
+    box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.5);  /* Stronger shadow */
+}
+/* Initially hide the content */
+.accordion-content {
+    display: none;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.6);
+    margin-top: 0.5rem;
+    border-radius: 8px;
+}
+
+/* List Item Hover Effect */
+main ul li:hover {
+    background: rgba(255, 255, 255, 0.3);  /* Lighten background */
+    transform: scale(1.02);  /* Slight scale effect */
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+/* Styling for the sound toggle icon */
+/* Adjust the size of the image icon */
+
+/* Adjust the size of the image icon */
+
+/* Optional Hover Effect on the Footer Link */
+.footer a:hover {
+    text-decoration: underline;
+    color: #ff8c00; 
+    /* Change color on hover */
+}
+        @media (max-width: 768px) {
+            main h1 {
+                font-size: 2rem;
+            }
+
+            main p {
+                font-size: 1rem;
+            }
+
+            main ul li {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+
+            .btn {
+                padding: 0.8rem 2rem;
+                font-size: 0.9rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }.video-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; /* Ensures the video is vertically centered within the full viewport */
+    background-color: #000; /* Optional: adds a background color for contrast */
+}
+
+iframe {
+    max-width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar">
+            <a class="navbar-brand" href="{{ url_for('index') }}" data-translate="true">
+                <img src="{{ url_for('static', filename='icon.webp') }}" alt="App Icon" style="width: 30px; height: 30px; margin-right: 10px;">
+                <span data-translate="true">Gestura</span>
+            </a>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}" data-translate="true">Home</a>
+                <a href="{{ url_for('dashboard') }}" data-translate="true">Dashboard</a>
+                <a href="{{ url_for('profile') }}" data-translate="true">Profile</a>
+                <a href="{{ url_for('settings') }}" data-translate="true">Settings</a>
+                <a href="{{ url_for('contact') }}" data-translate="true">Contact</a>
+                <a href="{{ url_for('feedback') }}" data-translate="true">Feedback</a>
+                <a href="{{ url_for('logout') }}" data-translate="true">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flashed-messages">
+        {% for category, message in messages %}
+          <li class="flash-{{ category }}" data-translate="true">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+    <main>
+        <section id="about">
+            <h1 data-translate="true">Welcome to VaaniSync</h1>
+            <p data-translate="true">
+                Vaanisync: Where spoken words are synchronized with universal understanding.
+            </p>
+        </section>
+       
+
+        <section id="features">
+            <h2 data-translate="true">App Benefits</h2>
+            <ul>
+                <li class="accordion" data-translate="true"><strong>Accessible Communication:</strong> Bridging communities effortlessly.</li>
+                <div class="accordion-content">
+                    <p data-translate="true">This feature ensures that all users, no matter their background, can communicate easily using sign language translations.</p>
+                    <img src="{{ url_for('static', filename='2.webp') }}" alt="App Icon" style="width: 800px; height: 300px; margin-left: 100px;">
+                </div>
+                <li class="accordion" data-translate="true">
+                    <strong>Real-Time Translation:</strong> Instant results for seamless interaction.
+                </li>
+                <div class="accordion-content">
+                    <p data-translate="true">Our real-time translation provides instant feedback, allowing smooth communication between individuals.</p>
+                    <div class="video-container">
+                        <iframe id="video2" width="560" height="315" 
+                            src="https://www.youtube.com/embed/MYVD7mVJ21w?autoplay=1&loop=1&playlist=MYVD7mVJ21w" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            referrerpolicy="strict-origin-when-cross-origin" 
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+               
+                
+               
+                <li class="accordion" data-translate="true"><strong>User-Friendly Design:</strong> Accessible and intuitive for all users.</li>
+                <div class="accordion-content">
+                    <p data-translate="true">The interface is designed with accessibility in mind, ensuring a smooth experience for all users.</p>
+                    <img src="{{ url_for('static', filename='3.png') }}" alt="App Icon" style="width: 800px; height: 300px; margin-left: 100px;">
+                </div>
+            </ul>
+        </section>
+        
+        <section id="start">
+            <h2 data-translate="true">Get Started</h2>
+            <a href="{{ url_for('dashboard') }}" class="btn" data-translate="true">Start</a>
+        </section>
+        
+        <section id="how-it-works">
+            <h2 data-translate="true">How It Works</h2>
+            <ul>
+                
+                <li class="accordion" data-translate="true"><strong>Gesture Recognition:</strong> Use videos or a live camera feed to detect gestures.</li>
+                <div class="accordion-content">
+                    <p data-translate="true">Leveraging advanced AI algorithms, the app employs gesture recognition to detect and interpret sign language gestures with high precision. Whether through pre-recorded videos or live camera feeds, the system accurately identifies hand shapes, movements, and positions, ensuring a seamless translation experience in real-time.</p>
+                    <img src="{{ url_for('static', filename='4.webp') }}" alt="App Icon" style="width: 800px; height: 300px; margin-left: 100px;">
+                </div>
+                
+                <li class="accordion" data-translate="true"><strong>Sign-to-Text Conversion:</strong> Transform sign language gestures to text.</li>
+                <div class="accordion-content">
+                    <p data-translate="true">Our app allows users to input sign language gestures, which are then instantly converted into text, providing real-time translations for easier communication.</p>
+                    <img src="{{ url_for('static', filename='5.webp') }}" alt="App Icon" style="width: 800px; height: 300px; margin-left: 100px;">
+                </div>
+                
+                <li class="accordion" data-translate="true"><strong>Voice Recognition:</strong> Speak and see translations in real time.</li>
+                <div class="accordion-content">
+                    <p data-translate="true">Our voice recognition feature converts speech into sign language translations instantly.</p>
+                    <iframe id="video1" width="880" height="315" src="https://www.youtube.com/embed/8KxunV-fQ7k?si=-O_UNF4yTR1Ox0nX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </ul>
+        </section>
+
+        <section id="feedback">
+            <h2 data-translate="true">Your Feedback Matters</h2>
+            <p data-translate="true">
+                Share your thoughts and suggestions to help improve Gestura and make it the best translation tool for everyone.
+            </p>
+            <a href="{{ url_for('feedback') }}" class="btn" data-translate="true">Provide Feedback</a>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p data-translate="true">&copy; 2025 VaaniSync. All rights reserved. <a href="#" data-translate="true">Privacy Policy</a></p>
+    </footer>
+
+    <!-- Audio element -->
+    <button id="sound-toggle" class="btn" style="position: fixed; bottom: 20px; right: 20px; padding: 5px 10px; font-size: 12px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px;" data-translate="true">
+        Play
+    </button>
+      
+    <audio id="gesture-sound" src="{{ url_for('static', filename='Gratitude_Spiritual-Moment.mp3') }}" preload="auto">play</audio>
+    
+
+    
+  
+      
+    
+    <script>
+        // Track sound status
+        let soundEnabled = localStorage.getItem('soundEnabled') === 'true'; // Get saved state from localStorage
+    
+        // Get references to the audio element and the sound toggle image
+        const sound = document.getElementById('gesture-sound');
+        const soundToggleImage = document.getElementById('sound-toggle');
+    
+        // Update the icon based on the saved state
+        if (soundEnabled) {
+            soundToggleImage.src = "{{ url_for('static', filename='stop-sound-icon.png') }}";
+            sound.play();
+        } else {
+            soundToggleImage.src = "{{ url_for('static', filename='play-sound-icon.png') }}";
+            sound.pause();
+        }
+    
+        // Function to play/stop the sound and toggle the image
+        soundToggleImage.addEventListener('click', () => {
+            if (soundEnabled) {
+                // Stop the sound
+                sound.pause();
+                sound.currentTime = 0; // Reset the sound to the beginning
+    
+                // Change image to 'play' icon
+                soundToggleImage.src = "{{ url_for('static', filename='play-sound-icon.png') }}";
+            } else {
+                // Play the sound
+                sound.play();
+    
+                // Change image to 'stop' icon
+                soundToggleImage.src = "{{ url_for('static', filename='stop-sound-icon.png') }}";
+            }
+    
+            // Toggle soundEnabled state and save it to localStorage
+            soundEnabled = !soundEnabled;
+            localStorage.setItem('soundEnabled', soundEnabled);
+        });
+    
+        // Function to toggle content visibility and autoplay videos
+        document.querySelectorAll('.accordion').forEach(item => {
+            item.addEventListener('click', () => {
+                // Toggle visibility of the content inside the clicked item
+                const content = item.nextElementSibling;
+                content.style.display = content.style.display === 'block' ? 'none' : 'block';
+    
+                // Play the videos
+                const video1 = document.getElementById('video1');
+                const video2 = document.getElementById('video2');
+    
+                // Trigger autoplay for video 1 and video 2 by updating their source URLs
+                if (!video1.src.includes("autoplay=1")) {
+                    video1.src += "&autoplay=1";
+                }
+                if (!video2.src.includes("autoplay=1")) {
+                    video2.src += "&autoplay=1";
+                }
+    
+                // Ensure the theme is loaded correctly from localStorage
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                document.body.setAttribute('data-theme', savedTheme);
+            });
+        });
+        <!-- In the common header or template that appears on every page -->
+    const apiKey = 'AIzaSyB_qzkA81_tbsFu8WmE4UqBMlTfAyTr20A';
+
+    const saveSettingsBtn = document.getElementById('saveSettingsBtn');
+    const languageSelect = document.getElementById('languageSelect');
+    const translatableElements = document.querySelectorAll('[data-translate]'); // Elements that need translation
+
+    window.onload = function () {
+        // Retrieve saved language from localStorage and apply the translation
+        const savedLanguage = localStorage.getItem('language');
+        if (savedLanguage) {
+            languageSelect.value = savedLanguage;  // Set the selected language in the dropdown
+            translatePage(savedLanguage);  // Translate content on page load
+        }
+    };
+
+    // When user clicks the save button
+    saveSettingsBtn.addEventListener('click', () => {
+        const selectedLanguage = languageSelect.value;
+        // Save the selected language to localStorage
+        localStorage.setItem('language', selectedLanguage);
+
+        // Translate the page based on the selected language
+        translatePage(selectedLanguage);
+    });
+
+    // Function to translate the page content
+    async function translatePage(targetLanguage) {
+        // Get the text content from elements that need translation
+        const elementsToTranslate = Array.from(translatableElements).map(el => el.textContent);
+
+        // Call Google Translate API for each element
+        const translations = await Promise.all(elementsToTranslate.map(text => {
+            return fetch(`https://translation.googleapis.com/language/translate/v2?key=${AIzaSyD-CgGpZNSWFxlDpfCtQxqnH4ieDOhZctc}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    q: text,
+                    target: targetLanguage,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => data.data.translations[0].translatedText)
+            .catch(error => {
+                console.error('Error during translation:', error);
+            });
+        }));
+
+        // Update the translatable elements with the translated text
+        let i = 0;
+        Array.from(translatableElements).forEach(el => {
+            el.textContent = translations[i] || el.textContent; // Update content with translation
+            i++;
+        });
+    }
+
+
+    </script>
+    
+</body>
+
+</html>

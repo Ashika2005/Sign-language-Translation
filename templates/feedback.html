@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback Form</title>
+  <style>
+    /* Global Styles */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #4b6cb7, #182848);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+      50% { background: linear-gradient(135deg, #182848, #4b6cb7); }
+      100% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+    }
+
+    /* Main Container */
+    .feedback-form-container {
+      max-width: 600px;
+      padding: 2rem;
+      margin-top: 300px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      width: 100%;
+    }
+
+    h2 {
+      font-size: 2.5rem;
+      color: #fdbb2d;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    }
+
+    p {
+      color: #ddd;
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+    }
+
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 1.1rem;
+      color: #ddd;
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    textarea, select {
+      width: 90%;
+      padding: 1rem;
+      font-size: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      background: #2c3e50;
+      color: #fff;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    textarea:focus, select:focus {
+      border-color: #fdbb2d;
+      box-shadow: 0 0 5px rgba(253, 187, 45, 0.7);
+    }
+
+    .btn-submit {
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #ff8c00, #ffa500);
+      color: #fff;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background 0.3s ease;
+      width: 100%;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-submit:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, rgb(118, 220, 118), green);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    /* Footer Styles */
+    footer {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 1rem;
+      color: #fdbb2d;
+    }
+
+    footer a {
+      color: #fdbb2d;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-brand {
+      font-size: 1.9rem;
+      font-weight: bold;
+      color: #fdbb2d;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: #fff;
+      font-size: 1.1rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #fdbb2d;
+      text-decoration: underline;
+    }/* Navbar Styles */
+.navbar {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 1.2rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%; /* Ensure full width */
+  left: 0; /* To make sure it starts at the left */
+}
+
+
+    /* Responsive Design */
+    @media (max-width: 600px) {
+      .feedback-form-container {
+        padding: 1.5rem;
+      }
+
+      h2 {
+        font-size: 2rem;
+      }
+
+      .btn-submit {
+        padding: 0.8rem 2rem;
+      }
+
+      label {
+        font-size: 1rem;
+      }
+
+      textarea, select {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='icon.webp') }}" alt="App Icon" style="width: 30px; height: 30px; margin-right: 10px;">
+      <span>Gestura</span>
+    </a>
+    <div class="nav-links">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+      <a href="{{ url_for('settings') }}">Settings</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+      <a href="{{ url_for('feedback') }}">Feedback</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </nav>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <ul class="flashed-messages">
+        {% for category, message in messages %}
+          <li class="flash-{{ category }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <div class="feedback-form-container">
+    <h2>Feedback Form</h2>
+    <p>Your feedback is important to us. Please let us know your thoughts!</p>
+
+    <form method="POST">
+      <div class="form-group">
+        <label for="feedback">Your Feedback</label>
+        <textarea id="feedback" name="feedback" rows="4" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="rating">Rating (Optional)</label>
+        <select id="rating" name="rating">
+          <option value="" selected>Choose Rating</option>
+          <option value="1">1 - Poor</option>
+          <option value="2">2 - Fair</option>
+          <option value="3">3 - Good</option>
+          <option value="4">4 - Very Good</option>
+          <option value="5">5 - Excellent</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-submit">Submit Feedback</button>
+    </form>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 VaaniSync. All rights reserved. <a href="#">Privacy Policy</a></p>
+  </footer>
+  <button id="sound-toggle" class="btn" style="position: fixed; bottom: 20px; right: 20px; padding: 5px 10px; font-size: 12px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+    Play
+  </button>
+  
+<audio id="gesture-sound" src="{{ url_for('static', filename='Gratitude_Spiritual-Moment.mp3') }}" preload="auto">play</audio>
+<script>
+  // Track sound status globally
+  let soundEnabled = localStorage.getItem('soundEnabled') === 'true'; // Get saved state from localStorage
+
+  // Get references to the audio element and the sound toggle button
+  const sound = document.getElementById('gesture-sound');
+  const soundToggleButton = document.getElementById('sound-toggle');
+
+  // Update the button text based on the saved state
+  if (soundEnabled) {
+      soundToggleButton.textContent = 'Stop';  // Change to 'Stop' if sound is enabled
+      sound.play();
+  } else {
+      soundToggleButton.textContent = 'Play';  // Change to 'Play' if sound is not enabled
+      sound.pause();
+  }
+
+  // Function to play/stop the sound and toggle the button text
+  soundToggleButton.addEventListener('click', () => {
+      if (soundEnabled) {
+          // Stop the sound
+          sound.pause();
+          sound.currentTime = 0; // Reset the sound to the beginning
+
+          // Change button text to 'Play'
+          soundToggleButton.textContent = 'Play';
+      } else {
+          // Play the sound
+          sound.play();
+
+          // Change button text to 'Stop'
+          soundToggleButton.textContent = 'Stop';
+      }
+
+      // Toggle soundEnabled state and save it to localStorage
+      soundEnabled = !soundEnabled;
+      localStorage.setItem('soundEnabled', soundEnabled);
+  });
+</script>
+
+</body>
+</html>

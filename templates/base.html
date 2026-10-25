@@ -1,0 +1,24 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="{{ g.get('language', 'en') }}">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}My Website{% endblock %}</title>
+
+  <!-- Common CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+
+  <!-- Optional extra head content -->
+  {% block head %}{% endblock %}
+</head>
+
+<body>
+  <div class="wrapper">
+    {% block content %}{% endblock %}
+  </div>
+
+  <!-- Optional JS -->
+  <script src="{{ url_for('static', filename='main.js') }}"></script>
+</body>
+</html>

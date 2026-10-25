@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - VaaniSync</title>
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;animation: gradientShift 1s ease infinite; /* 1 second for very fast transition */
+
+            align-items: center;
+            height: 100vh;
+          
+        }
+
+        @keyframes gradientShift {
+            0% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+            50% { background: linear-gradient(135deg, #182848, #4b6cb7); }
+            100% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+        }
+
+        h1, h2, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Main Container */
+        .login-container {
+            max-width: 400px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .login-container h2 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #fdbb2d;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 1.2rem;
+            color: #ddd;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        input {
+            padding: 1rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            width: 90%;
+            margin-bottom: 1.5rem;
+            background: #fff;
+            color: #333;
+            display: block;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: 2px solid #fdbb2d;
+            background-color: #f4f4f4;
+        }
+
+        .error-text {
+            color: red;
+            font-size: 0.9rem;
+            display: block;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(90deg, #ff8c00, #ffa500);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.8rem;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, rgb(118, 220, 118), green);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Redirect Link */
+        .redirect-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        .redirect-link a {
+            color: #fdbb2d;
+            text-decoration: none;
+        }
+
+        .redirect-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer Styles */
+        footer {
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 1rem;
+        }
+
+        footer a {
+            color: #fdbb2d;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .login-container {
+                width: 90%;
+                padding: 1.5rem;
+            }
+
+            .login-container h2 {
+                font-size: 1.5rem;
+            }
+
+            .form-group {
+                width: 80%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <h1><a href="/" class="brand-logo" style="color: #fdbb2d; text-decoration: none;">VaaniSync</a></h1>
+        <h2>Welcome Back</h2>
+
+        <!-- Display Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <!-- CSRF Token -->
+            {{ form.hidden_tag() }}
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" autocomplete="on" autofocus class="form-control" placeholder="Enter your email" >
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" autocomplete="off" class="form-control" placeholder="Enter your password">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn">Login</button>
+
+            <!-- Redirect Link -->
+            <p class="redirect-link">Don't have an account? <a href="{{ url_for('register') }}">Register</a></p>
+          
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 VaaniSync. All rights reserved. <a href="#">Privacy Policy</a></p>
+    </footer>
+</body>
+</html>

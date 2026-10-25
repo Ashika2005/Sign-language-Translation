@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audio to Sign - Home</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #4b6cb7, #182848);
+      color: #fff;
+      overflow-x: hidden;
+      animation: gradientShift 10s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background: linear-gradient(135deg, #4b6cb7, #182848);
+      }
+
+      50% {
+        background: linear-gradient(135deg, #182848, #4b6cb7);
+      }
+
+      100% {
+        background: linear-gradient(135deg, #4b6cb7, #182848);
+      }
+    }
+
+    h1,
+    h2,
+    p {
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-brand {
+      font-size: 1.9rem;
+      font-weight: bold;
+      color: #fdbb2d;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand img {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: #fff;
+      font-size: 1.1rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #fdbb2d;
+      text-decoration: underline;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 15px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+
+    .heading {
+      font-size: 3rem;
+      font-weight: bold;
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+      margin-bottom: 1.5rem;
+      color: #fdbb2d;
+    }
+
+    .subheading {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      color: #ddd;
+      font-weight: 300;
+    }
+
+    .btn {
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      background: linear-gradient(90deg, #ff8c00, #ffa500);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 2rem;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #ffa500, #ff8c00);
+    }
+
+    video {
+      border-radius: 15px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+      border: 5px solid #fdbb2d;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .heading {
+        font-size: 2rem;
+      }
+
+      .subheading {
+        font-size: 1rem;
+      }
+
+      video {
+        width: 100%;
+        height: auto;
+      }
+
+      .btn {
+        width: 90%;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='icon.webp') }}" alt="App Icon" />
+      <span>Gestura</span>
+    </a>
+    <div class="nav-links">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+      <a href="{{ url_for('settings') }}">Settings</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+      <a href="{{ url_for('feedback') }}">Feedback</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h1 class="heading">Text to Sign Translator</h1>
+    <p class="subheading">Convert spoken or typed text into sign animations.</p>
+
+    <video width="500" height="380" autoplay loop muted>
+      <source src="{{ url_for('static', filename='Hello.mp4') }}" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+
+    <div>
+      <a href="{{ url_for('animation') }}">
+        <button class="btn">Click to Start</button>
+      </a>
+    </div>
+  </div>
+</body>
+
+</html>

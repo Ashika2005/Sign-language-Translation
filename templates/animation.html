@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Animation - Audio to Sign</title>
+  <script src="https://code.responsivevoice.org/responsivevoice.js?key=NtdixvQs"></script>
+  <script>
+    async function translateToHindiAndSpeak(text) {
+      const apiKey = 'AIzaSyB_qzkA81_tbsFu8WmE4UqBMlTfAyTr20A'; // Replace this with your actual key
+      const url = `https://translation.googleapis.com/language/translate/v2?key=${apiKey}`;
+
+      try {
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            q: text,
+            source: 'en',
+            target: 'hi',
+            format: 'text'
+          })
+        });
+
+        const data = await response.json();
+        const translated = data.data.translations[0].translatedText;
+        responsiveVoice.speak(translated, "Hindi Female");
+      } catch (error) {
+        console.error('Translation error:', error);
+        responsiveVoice.speak(text, "Hindi Female"); // fallback
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #4b6cb7, #182848);
+      color: #fff;
+      overflow-x: hidden;
+      animation: gradientShift 10s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+      50% { background: linear-gradient(135deg, #182848, #4b6cb7); }
+      100% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+    }
+
+    .navbar {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 1.2rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .navbar-brand {
+      font-size: 1.9rem;
+      font-weight: bold;
+      color: #fdbb2d;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-brand img {
+      width: 30px;
+      height: 30px;
+      margin-right: 10px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      color: #fff;
+      font-size: 1.1rem;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links a:hover {
+      color: #fdbb2d;
+      text-decoration: underline;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;
+      padding: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .left, .right {
+      width: 48%;
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 30px;
+      border-radius: 15px;
+    }
+
+    .form-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    input.mytext {
+      flex: 1;
+      min-width: 250px;
+      padding: 10px;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+    }
+
+    .mic {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    .submit {
+      padding: 10px 20px;
+      background: linear-gradient(90deg, #ff8c00, #ffa500);
+      color: #fff;
+      font-weight: bold;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: block;
+      margin: 20px auto 0;
+    }
+
+    .submit:hover {
+      transform: scale(1.05);
+      background: linear-gradient(90deg, #ffa500, #ff8c00);
+    }
+
+    video {
+      border-radius: 15px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+      border: 5px solid #fdbb2d;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <a class="navbar-brand" href="{{ url_for('index') }}">
+      <img src="{{ url_for('static', filename='icon.webp') }}" alt="App Icon">
+      <span>Gestura</span>
+    </a>
+    <div class="nav-links">
+      <a href="{{ url_for('index') }}">Home</a>
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+      <a href="{{ url_for('settings') }}">Settings</a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+      <a href="{{ url_for('feedback') }}">Feedback</a>
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="left">
+      <h2 align="center">Enter Text or Use Mic</h2>
+      <form action="" method="post">
+        <div class="form-row">
+          <input type="text" name="sen" class="mytext" id="speechToText" placeholder="">
+          <button type="button" class="mic" onclick="record()">
+            <img src="{{ url_for('static', filename='mic3.png') }}" height="32px" width="38px" />
+          </button>
+        </div>
+        <input type="submit" name="submit" class="submit" value="Submit">
+      </form>
+
+      <br>
+      <table cellspacing="20px">
+        <tr>
+          <td>The text that you entered is:</td>
+          <td>{{ text }}</td>
+        </tr>
+        <tr>
+          <td>Key words in sentence:</td>
+          <td>
+            <ul id="list">
+              {% for word in words %}
+              <li id="{{ loop.index0 }}" style="margin-right: 8px">{{ word }}</li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="right">
+      <h2 align="center">Sign Language Animation</h2>
+      <div style="text-align:center">
+        <button class="submit" onclick="playPause()">Play/Pause</button>
+        <video id="videoPlayer" width="100%" height="350" preload="auto" autoplay>
+          <source src="" type="video/mp4">
+          Your browser does not support HTML5 video.
+        </video>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function record() {
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-IN';
+      recognition.onresult = function (event) {
+        document.getElementById('speechToText').value = event.results[0][0].transcript;
+      }
+      recognition.start();
+    }
+
+    function play() {
+      const videoSource = [];
+      const videos = document.getElementById("list").getElementsByTagName("li");
+      for (let j = 0; j < videos.length; j++) {
+        videoSource[j] = "/static/" + videos[j].innerHTML + ".mp4";
+      }
+
+      let i = 0;
+      const videoCount = videoSource.length;
+
+      function videoPlay(videoNum) {
+        const word = videos[videoNum].innerHTML;
+        videos[videoNum].style.color = "#09edc7";
+        videos[videoNum].style.fontSize = "xx-large";
+        document.getElementById("videoPlayer").setAttribute("src", videoSource[videoNum]);
+        document.getElementById("videoPlayer").load();
+        document.getElementById("videoPlayer").play();
+        translateToHindiAndSpeak(word);
+      }
+
+      document.getElementById('videoPlayer').addEventListener('ended', myHandler, false);
+      videos[0].style.color = "#09edc7";
+      videos[0].style.fontSize = "xx-large";
+
+      videoPlay(0);
+
+      function myHandler() {
+        videos[i].style.color = "#feda6a";
+        videos[i].style.fontSize = "20px";
+        i++;
+        if (i === videoCount) {
+          document.getElementById("videoPlayer").pause();
+        } else {
+          videoPlay(i);
+        }
+      }
+    }
+
+    function playPause() {
+      if (document.getElementById("videoPlayer").paused) {
+        play();
+      } else {
+        document.getElementById("videoPlayer").pause();
+      }
+    }
+  </script>
+</body>
+</html>

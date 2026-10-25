@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaaniSync</title>
+    <link rel="icon" href="icon.png" type="image/png">
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            animation: gradientShift 1s ease infinite;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        @keyframes gradientShift {
+            0% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+            50% { background: linear-gradient(135deg, #182848, #4b6cb7); }
+            100% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+        }
+        h1, h2, p {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            text-align: center;
+            padding: 2rem 1rem;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #fdbb2d;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+            color: #ddd;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 60vh;
+            background: url('https://via.placeholder.com/1500x600') center center/cover no-repeat;
+            box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-section h2 {
+            font-size: 2.8rem;
+            color: #fdbb2d;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #ddd;
+        }
+
+        .cta-buttons {
+           
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .cta-buttons a {
+            text-decoration: none;
+            background: linear-gradient(90deg, #f48804, #efba58);
+            color: #fff;
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta-buttons a:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, rgb(74, 239, 74), green);
+        }
+/* Centering the Start and Feedback Buttons */
+.cta-buttons {
+    display: flex;
+   justify-content: center;  /* Center horizontally */
+    align-items: center;    /* Center vertically */
+    gap: 1.5rem; /* Stack buttons vertically if needed */
+    gap: 100px;   border-radius: 30px;            /* Add spacing between buttons */
+    text-align: center;
+    margin-top: 30px;       /* Add spacing above */
+}
+
+.cta-buttons a {
+    text-decoration: none;
+    background-color: #0066cc;
+    color: white;
+    padding: 15px 30px; padding: 1rem 2.5rem;
+    font-size: 1rem;
+    border-radius: 30px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+   display: block;  /* Ensure buttons don't stretch */
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Optional button shadow */
+    margin: 0.8rem;
+            
+}
+
+.cta-buttons a:hover {
+    background-color: #005bb5;
+    transform: scale(1.05); /* Slight scale-up effect on hover */
+}
+
+/* Optional: Styling for mobile responsiveness */
+@media (max-width: 768px) {
+    .cta-buttons {
+        gap: 15px; /* Adjust spacing for smaller screens */
+    }
+    .cta-buttons a {
+        font-size: 0.9rem;
+        padding: 12px 25px;
+    }
+}
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+            color: #fdbb2d;
+        }
+
+        footer p {
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: #fdbb2d;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>VaaniSync</h1>
+        <p>Breaking the barriers with technology</p>
+    </header>
+
+    <section class="hero-section">
+        <div>
+            <h2>Learn and Communicate with Sign Language</h2>
+            <p>Translate sign language gestures to text and vice versa in real-time</p>
+            <div class="cta-buttons">
+                <a href="/login">Login</a>
+                <a href="/register">Register</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 VaaniSync. All rights reserved. <a href="#">Privacy Policy</a></p>
+    </footer>
+    <button id="sound-toggle" class="btn" style="position: fixed; bottom: 20px; right: 20px; padding: 5px 10px; font-size: 12px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px;">
+        Play
+      </button>
+      
+    <audio id="gesture-sound" src="{{ url_for('static', filename='Gratitude_Spiritual-Moment.mp3') }}" preload="auto">play</audio>
+    <script>
+        // Track sound status globally
+        let soundEnabled = localStorage.getItem('soundEnabled') === 'true'; // Get saved state from localStorage
+    
+        // Get references to the audio element and the sound toggle button
+        const sound = document.getElementById('gesture-sound');
+        const soundToggleButton = document.getElementById('sound-toggle');
+    
+        // Update the button text based on the saved state
+        if (soundEnabled) {
+            soundToggleButton.textContent = 'Stop';  // Change to 'Stop' if sound is enabled
+            sound.play();
+        } else {
+            soundToggleButton.textContent = 'Play';  // Change to 'Play' if sound is not enabled
+            sound.pause();
+        }
+    
+        // Function to play/stop the sound and toggle the button text
+        soundToggleButton.addEventListener('click', () => {
+            if (soundEnabled) {
+                // Stop the sound
+                sound.pause();
+                sound.currentTime = 0; // Reset the sound to the beginning
+    
+                // Change button text to 'Play'
+                soundToggleButton.textContent = 'Play';
+            } else {
+                // Play the sound
+                sound.play();
+    
+                // Change button text to 'Stop'
+                soundToggleButton.textContent = 'Stop';
+            }
+    
+            // Toggle soundEnabled state and save it to localStorage
+            soundEnabled = !soundEnabled;
+            localStorage.setItem('soundEnabled', soundEnabled);
+        });
+    </script>
+    
+</body>
+
+</html>

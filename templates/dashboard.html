@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VaaniSync</title>
+
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+            background: linear-gradient(-45deg, #4b6cb7, #182848, #2c3e50, #1f4068);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        h1, h2, p { margin: 0; padding: 0; }
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar-brand {
+            font-size: 1.9rem;
+            font-weight: bold;
+            color: #fdbb2d;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        .nav-links { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .nav-links a {
+            color: #fff;
+            font-size: 1.1rem;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .nav-links a:hover { color: #fdbb2d; text-decoration: underline; }
+        .container {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+        }
+        .heading {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            margin-bottom: 1.5rem;
+            color: #fdbb2d;
+        }
+        .subheading {
+            text-align: center;
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            color: #ddd;
+            font-weight: 300;
+        }
+        .form-container { display: flex; justify-content: center; align-items: center; gap: 20px; flex-wrap: wrap; }
+        .form-group { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 400px; }
+        .form-group label { font-size: 1.2rem; margin-bottom: 10px; color: #fdbb2d; }
+        .form-group input, .form-group select, .form-group textarea {
+            padding: 1rem;
+            font-size: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            box-sizing: border-box;
+            background-color: #2c3e50;
+            color: #fff;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: #fdbb2d;
+            box-shadow: 0 0 5px rgba(253, 187, 45, 0.7);
+            outline: none;
+        }
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(90deg, #ff8c00, #ffa500);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 0.8rem;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+        }
+        .btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #ffa500, #ff8c00);
+        }
+        .camera-feed { display: none; margin-top: 3rem; text-align: center; }
+        .camera-feed img {
+            width: 80%;
+            max-width: 640px;
+            border-radius: 15px;
+            box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5);
+            border: 5px solid #fdbb2d;
+        }
+        .flashed-messages { list-style-type: none; padding: 0; margin: 1rem 2rem; }
+        .flash-success { background-color: #28a745; color: white; padding: 1rem; border-radius: 5px; margin-bottom: 1rem; }
+        .flash-danger { background-color: #dc3545; color: white; padding: 1rem; border-radius: 5px; margin-bottom: 1rem; }
+        .footer { text-align: center; padding: 1.2rem; background: rgba(0, 0, 0, 0.8); color: #fdbb2d; font-size: 1rem; font-weight: 500; }
+        .footer a { color: #fdbb2d; text-decoration: none; }
+
+        /* Dual-Language Caption Display Styles */
+        .caption-entry {
+            padding-bottom: 0.8rem;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(253, 187, 45, 0.3);
+        }
+        .caption-entry:last-child {
+            border-bottom: none;
+        }
+        .original-transcript {
+            font-size: 1rem;
+            font-style: italic;
+            color: #ccc;
+            margin: 0;
+            padding: 0;
+        }
+        .translated-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { justify-content: center; gap: 1rem; }
+            .heading { font-size: 2.5rem; }
+            .subheading { font-size: 1.1rem; }
+            .form-container { flex-direction: column; align-items: center; }
+            .form-group input, .form-group select, .form-group textarea, .btn { width: 90%; }
+            .camera-feed img { width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <a class="navbar-brand" href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='icon.webp') }}" alt="App Icon" style="width: 30px; height: 30px; margin-right: 10px;">
+            <span>Gestura</span>
+        </a>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('settings') }}">Settings</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            <a href="{{ url_for('feedback') }}">Feedback</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </div>
+    </nav>
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flashed-messages">
+                {% for category, message in messages %}
+                    <li class="flash-{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <h1 class="heading">VaaniSync</h1>
+        <p class="subheading">Seamlessly translate sign language and voice with AI-powered technology.</p>
+
+        <div class="form-container" style="justify-content: center; gap: 20px;">
+            <button id="startCameraButton" class="btn">SIGN TO TEXT</button>
+            <a href="{{ url_for('animation_home') }}">
+                <button class="btn">TEXT TO SIGN</button>
+            </a>
+            <button id="closeCameraButton" class="btn" style="display: none; background: linear-gradient(90deg, #d32f2f, #b71c1c);">Close Camera</button>
+        </div>
+
+        <div id="cameraFeedContainer" class="camera-feed">
+            <h2>Camera Feed</h2>
+            <img id="cameraFeed" src="" alt="Camera Feed">
+        </div>
+        
+        <div class="caption-container" style="margin-top: 3rem; text-align: center; border-top: 1px solid rgba(253, 187, 45, 0.5); padding-top: 2rem;">
+            <h2 class="subheading" style="margin-bottom: 1rem;">Live Voice Translation</h2>
+            
+            <div class="form-group" style="margin: auto; margin-bottom: 1.5rem;">
+                <label for="voiceLanguageSelect">Language I Will Be Speaking:</label>
+                <select id="voiceLanguageSelect" class="form-group">
+                    <option value="hi-IN">Hindi (हिन्दी)</option>
+                    <option value="bn-IN">Bengali (বাংলা)</option>
+                    <option value="te-IN">Telugu (తెలుగు)</option>
+                    <option value="mr-IN">Marathi (मराठी)</option>
+                    <option value="ta-IN">Tamil (தமிழ்)</option>
+                    <option value="gu-IN">Gujarati (ગુજરાતી)</option>
+                    <option value="kn-IN">Kannada (ಕನ್ನಡ)</option>
+                    <option value="ml-IN">Malayalam (മലയാളം)</option>
+                    <option value="en-US">English (US)</option>
+                </select>
+            </div>
+            
+            <div class="form-group" style="margin: auto; margin-bottom: 1.5rem;">
+                <label for="voiceTargetLanguageSelect">Translate Voice To:</label>
+                <select id="voiceTargetLanguageSelect" class="form-group">
+                    <option value="en">English</option>
+                    <option value="hi">Hindi (हिन्दी)</option>
+                    <option value="bn">Bengali (বাংলা)</option>
+                    <option value="te">Telugu (తెలుగు)</option>
+                    <option value="mr">Marathi (मराठी)</option>
+                    <option value="ta">Tamil (தமிழ்)</option>
+                    <option value="gu">Gujarati (ગુજરાતી)</option>
+                    <option value="kn">Kannada (ಕನ್ನಡ)</option>
+                    <option value="ml">Malayalam (മലയാളം)</option>
+                </select>
+            </div>
+
+            <div class="form-container" style="justify-content: center; gap: 20px;">
+                <button id="startCaptionButton" class="btn">Start Listening</button>
+                <button id="stopCaptionButton" class="btn" style="display: none; background: linear-gradient(90deg, #d32f2f, #b71c1c);">Stop Listening</button>
+            </div>
+
+            <div id="captionDisplay" class="caption-box" style="display: none; margin-top: 2rem; padding: 1.5rem; background: rgba(0,0,0,0.5); border-radius: 10px; border: 2px solid #fdbb2d; height: 200px; color: #fff; font-size: 1.2rem; overflow-y: scroll; text-align: left;">
+                </div>
+        </div>
+
+    </div> <footer class="footer">
+        <p>&copy; 2025 VaaniSync. All rights reserved. <a href="#">Privacy Policy</a></p>
+    </footer>
+
+    <button id="sound-toggle" class="btn" style="position: fixed; bottom: 20px; right: 20px; padding: 5px 10px; font-size: 12px; cursor: pointer; background-color: #007bff; color: white; border: none; border-radius: 5px;">Play</button>
+    <audio id="gesture-sound" src="{{ url_for('static', filename='Gratitude_Spiritual-Moment.mp3') }}" preload="auto" loop></audio>
+
+    <script>
+        // Camera logic
+        const startCameraButton = document.getElementById('startCameraButton');
+        const closeCameraButton = document.getElementById('closeCameraButton');
+        const cameraFeedContainer = document.getElementById('cameraFeedContainer');
+        const cameraFeed = document.getElementById('cameraFeed');
+        startCameraButton.addEventListener('click', () => {
+            cameraFeedContainer.style.display = 'block';
+            cameraFeed.src = "{{ url_for('video_feed') }}";
+            startCameraButton.style.display = 'none';
+            closeCameraButton.style.display = 'inline-block';
+        });
+        closeCameraButton.addEventListener('click', () => {
+            cameraFeedContainer.style.display = 'none';
+            cameraFeed.src = "";
+            closeCameraButton.style.display = 'none';
+            startCameraButton.style.display = 'inline-block';
+        });
+
+        // Sound logic
+        let soundEnabled = localStorage.getItem('soundEnabled') === 'true';
+        const sound = document.getElementById('gesture-sound');
+        const soundToggleButton = document.getElementById('sound-toggle');
+        function updateSoundUI() {
+            if (soundEnabled) {
+                soundToggleButton.textContent = 'Stop';
+                sound.play().catch(e => console.log("Audio play failed:", e));
+            } else {
+                soundToggleButton.textContent = 'Play';
+                sound.pause();
+            }
+        }
+        updateSoundUI();
+        soundToggleButton.addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            localStorage.setItem('soundEnabled', soundEnabled);
+            updateSoundUI();
+        });
+
+        // --- FINAL, CONTINUOUS: Voice Translation Logic ---
+        window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (window.SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            const startCaptionButton = document.getElementById('startCaptionButton');
+            const stopCaptionButton = document.getElementById('stopCaptionButton');
+            const captionDisplay = document.getElementById('captionDisplay');
+            const voiceLanguageSelect = document.getElementById('voiceLanguageSelect');
+            const voiceTargetLanguageSelect = document.getElementById('voiceTargetLanguageSelect'); // Get the new dropdown
+
+            let isListening = false;
+
+            startCaptionButton.addEventListener('click', () => {
+                captionDisplay.innerHTML = '';
+                recognition.lang = voiceLanguageSelect.value;
+                try {
+                    recognition.start();
+                    isListening = true;
+                    startCaptionButton.style.display = 'none';
+                    stopCaptionButton.style.display = 'inline-block';
+                    captionDisplay.style.display = 'block';
+                } catch (error) {
+                    console.error("Recognition start error:", error);
+                    isListening = false;
+                }
+            });
+
+            stopCaptionButton.addEventListener('click', () => {
+                isListening = false;
+                recognition.stop();
+            });
+
+            recognition.onresult = (event) => {
+                for (let i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        const finalPhrase = event.results[i][0].transcript.trim();
+                        if (finalPhrase) {
+                            getVoiceTranslation(finalPhrase);
+                        }
+                    }
+                }
+            };
+
+            async function getVoiceTranslation(text) {
+                const targetLang = voiceTargetLanguageSelect.value; // Get value from the new dropdown
+                try {
+                    const response = await fetch('/translate', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text: text, target_lang: targetLang }), // Use the dynamic targetLang
+                    });
+                    const data = await response.json();
+                    if (data.error || !data.translated_text) { throw new Error(data.error); }
+
+                    const entryDiv = document.createElement('div');
+                    entryDiv.className = 'caption-entry';
+                    const originalP = document.createElement('p');
+                    originalP.className = 'original-transcript';
+                    originalP.textContent = text;
+                    const translatedP = document.createElement('p');
+                    translatedP.className = 'translated-text';
+                    translatedP.textContent = data.translated_text;
+                    entryDiv.appendChild(originalP);
+                    entryDiv.appendChild(translatedP);
+                    captionDisplay.appendChild(entryDiv);
+                    captionDisplay.scrollTop = captionDisplay.scrollHeight;
+                } catch (error) {
+                    console.error('Voice translation error:', error);
+                    const errorP = document.createElement('p');
+                    errorP.style.color = '#ff8c00';
+                    errorP.textContent = `[Error: Could not get translation]`;
+                    captionDisplay.appendChild(errorP);
+                    captionDisplay.scrollTop = captionDisplay.scrollHeight;
+                }
+            }
+
+            recognition.onerror = (event) => {
+                console.error("Speech recognition error:", event.error);
+                isListening = false;
+                captionDisplay.innerHTML += `<p><em>Error: ${event.error}. Check mic permissions.</em></p>`;
+            };
+
+            recognition.onend = () => {
+                if (isListening) {
+                    console.log("Speech service ended, restarting...");
+                    try {
+                        recognition.start();
+                    } catch(e) {
+                        console.error("Error restarting recognition:", e);
+                        isListening = false;
+                        stopCaptionButton.style.display = 'none';
+                        startCaptionButton.style.display = 'inline-block';
+                    }
+                } else {
+                    stopCaptionButton.style.display = 'none';
+                    startCaptionButton.style.display = 'inline-block';
+                }
+            };
+        } else {
+            document.querySelector('.caption-container').innerHTML = '<p class="subheading" style="color: #ff8c00;">Sorry, your browser does not support Speech Recognition. Please use Google Chrome or Microsoft Edge.</p>';
+        }
+
+    </script>
+</body>
+</html>

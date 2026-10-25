@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - YourApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #4b6cb7, #182848);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #fff;
+            animation: gradientShift 15s ease infinite;
+            overflow: hidden; /* Prevents overflow on small screens */
+        }
+
+        @keyframes gradientShift {
+            0% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+            50% { background: linear-gradient(135deg, #182848, #4b6cb7); }
+            100% { background: linear-gradient(135deg, #4b6cb7, #182848); }
+        }
+
+        /* Main Container */
+        .register-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            max-width: 450px;
+            width: 100%;
+            transition: all 0.3s ease-in-out;
+            text-align: center;
+            margin-bottom: 20px; /* Ensures the form doesn't get stuck to the bottom */
+        }
+
+        .register-container h2 {
+            font-size: 28px;
+            color: #fdbb2d;
+            margin-bottom: 30px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: 500;
+            color: #ddd;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background-color: #f9f9f9;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #fdbb2d;
+            background-color: #fff;
+        }
+
+        .form-group.error input {
+            border-color: #e74c3c;
+        }
+
+        .error-text {
+            color: #e74c3c;
+            font-size: 12px;
+        }
+
+        /* Submit Button */
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #fdbb2d;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.4);
+        }
+
+        .btn:hover {
+            background-color: #fbbd3c;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Redirect Link */
+        .redirect-link {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        .redirect-link a {
+            color: #fdbb2d;
+            text-decoration: none;
+        }
+
+        .redirect-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer Styles */
+    
+        /* Media Queries for Responsiveness */
+        @media (max-width: 768px) {
+            .register-container {
+                padding: 20px;
+                width: 90%;
+            }
+
+            .register-container h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Create Your Account</h2>
+        <form method="POST">
+            <!-- CSRF Token -->
+            {{ form.hidden_tag() }}
+
+            <!-- Username -->
+            <div class="form-group {{ 'error' if form.username.errors else '' }}">
+                <label for="username">Username</label>
+                {{ form.username(class="form-control") }}
+                {% for error in form.username.errors %}
+                    <small class="error-text">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <!-- Email -->
+            <div class="form-group {{ 'error' if form.email.errors else '' }}">
+                <label for="email">Email</label>
+                {{ form.email(class="form-control") }}
+                {% for error in form.email.errors %}
+                    <small class="error-text">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <!-- Password -->
+            <div class="form-group {{ 'error' if form.password.errors else '' }}">
+                <label for="password">Password</label>
+                {{ form.password(class="form-control") }}
+                {% for error in form.password.errors %}
+                    <small class="error-text">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group {{ 'error' if form.confirm.errors else '' }}">
+                <label for="confirm">Confirm Password</label>
+                {{ form.confirm(class="form-control") }}
+                {% for error in form.confirm.errors %}
+                    <small class="error-text">{{ error }}</small>
+                {% endfor %}
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn">Register</button>
+
+            <!-- Redirect Link -->
+            <p class="redirect-link">Already have an account? <a href="/login">Login</a></p>
+        </form>
+    </div>
+    <footer>
+        Designed with ❤️ by <a href="https://github.com/yourprofile">Your Name</a>
+    </footer>
+    
+</body>
+</html>
